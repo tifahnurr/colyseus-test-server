@@ -7,7 +7,6 @@
     "dev": "nodemon --config \"./nodemon.json\"/",
     "start": "ts-node index.ts --transpileOnly",
     "build": "tsc"
-
   },
   "repository": {
     "type": "git",
@@ -31,7 +30,9 @@
     "typescript": "^4.2.3"
   },
   "dependencies": {
+    "@colyseus/command": "^0.1.6",
     "@colyseus/monitor": "^0.14.3",
+    "@colyseus/schema": "^1.0.16",
     "colyseus": "^0.14.13",
     "cors": "^2.8.5",
     "express": "^4.17.1",
