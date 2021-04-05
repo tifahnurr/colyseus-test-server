@@ -6,6 +6,9 @@ import cors from 'cors';
 import { createServer } from 'http';
 import { monitor } from '@colyseus/monitor';
 
+// Rooms
+import BattleRoom from './src/rooms/BattleRoom';
+
 const port = Number(process.env.port) || 3000;
 
 const app = express();
@@ -25,6 +28,9 @@ app.use('/colyseus', monitorRouter);
 app.get('/ping', (_, res) => {
   res.send('pong');
 });
+
+// register game rooms
+gameServer.define('battle_room', BattleRoom);
 
 gameServer.listen(port).then(() => {
   console.log(`Running on COLYSEUS on port: ${port}`);
