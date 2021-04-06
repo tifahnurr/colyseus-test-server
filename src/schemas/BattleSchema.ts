@@ -3,5 +3,5 @@ import PlayerSchema from './PlayerSchema';
 
 export default class BattleSchema extends Schema {
   @type({ map: PlayerSchema })
-  players = new MapSchema(PlayerSchema);
+  players = new MapSchema<PlayerSchema>();
 }

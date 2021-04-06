@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
+
 import { Server } from 'colyseus';
 import express from 'express';
 import cors from 'cors';
@@ -9,7 +10,7 @@ import { monitor } from '@colyseus/monitor';
 // Rooms
 import BattleRoom from './src/rooms/BattleRoom';
 
-const port = Number(process.env.port) || 3000;
+const port = Number(process.env.PORT || 2567) + Number(process.env.NODE_APP_INSTANCE || 0);
 
 const app = express();
 app.use(cors());
