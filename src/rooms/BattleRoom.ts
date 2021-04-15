@@ -11,7 +11,7 @@ export default class BattleRoom extends Room<BattleSchema> {
 
   onCreate() {
     this.setState(new BattleSchema());
-    this.setPatchRate(1000 / 30);
+    this.setPatchRate(1000 / 25);
 
     this.game = new BattleMode(this, this.dispacther);
   }
