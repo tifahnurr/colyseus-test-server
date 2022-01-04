@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "format": "prettier --write src/**/*.ts loadtest/**/*.ts clientside/**/*.ts",
     "dev": "nodemon --config \"./nodemon.json\"/",
     "start": "ts-node index.ts --transpileOnly",
     "build": "tsc"
@@ -21,6 +22,7 @@
     "@types/node": "^14.14.37",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
     "@typescript-eslint/parser": "^4.20.0",
+    "colyseus.js": "^0.14.13",
     "eslint": "^7.23.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-airbnb-typescript": "^12.3.1",

@@ -1,11 +1,11 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable import/prefer-default-export */
 
-import { Command } from "@colyseus/command";
-import { Room } from "colyseus";
-import BattleSchema from "../schemas/BattleSchema";
-import PlayerSchema from "../schemas/PlayerSchema";
-import { Vector2DSchema } from "../schemas/Util";
+import { Command } from '@colyseus/command';
+import { Room } from 'colyseus';
+import BattleSchema from '../schemas/BattleSchema';
+import PlayerSchema from '../schemas/PlayerSchema';
+import { Vector2DSchema } from '../schemas/Util';
 
 interface Session {
   sessionId: string;
@@ -41,7 +41,7 @@ export class OnPlayerLeave extends Command<BattleSchema, Session & WithRoom> {
       return;
     }
     this.state.players.delete(sessionId);
-    room.broadcast("despawn", id);
+    room.broadcast('despawn', id);
   }
 }
 

@@ -17,11 +17,17 @@ export default class BattleRoom extends Room<BattleSchema> {
   }
 
   onJoin(client: Client) {
-    console.log('Join', this.clients.map(c => c.sessionId));
+    console.log(
+      'Join',
+      this.clients.map((c) => c.sessionId),
+    );
     this.dispacther.dispatch(new OnPlayerJoin(), client);
   }
 
   onLeave(client: Client) {
-    this.dispacther.dispatch(new OnPlayerLeave(), { sessionId: client.sessionId, room: this });
+    this.dispacther.dispatch(new OnPlayerLeave(), {
+      sessionId: client.sessionId,
+      room: this,
+    });
   }
 }

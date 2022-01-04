@@ -1,12 +1,12 @@
-import { OnPlayerMove, OnPlayerSpawn } from "./../commands/BattleCommand";
-import { Dispatcher } from "@colyseus/command";
-import { Room, Client } from "colyseus";
-import PlayerSchema from "../schemas/PlayerSchema";
+import { OnPlayerMove, OnPlayerSpawn } from './../commands/BattleCommand';
+import { Dispatcher } from '@colyseus/command';
+import { Room, Client } from 'colyseus';
+import PlayerSchema from '../schemas/PlayerSchema';
 
 export default class BattleMode {
   constructor(private room: Room, private dispacther: Dispatcher) {
-    this.room.onMessage("spawn", this.OnSpawn.bind(this));
-    this.room.onMessage("move", this.OnMove.bind(this));
+    this.room.onMessage('spawn', this.OnSpawn.bind(this));
+    this.room.onMessage('move', this.OnMove.bind(this));
   }
 
   OnSpawn(client: Client, msg: { x: number; y: number; id: number }) {
