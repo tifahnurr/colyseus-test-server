@@ -1,18 +1,20 @@
-import { Room, Client } from 'colyseus';
+import { Client } from 'colyseus';
 import { Dispatcher } from '@colyseus/command';
 import BattleSchema from '../schemas/BattleSchema';
 import { OnPlayerJoin, OnPlayerLeave } from '../commands/BattleCommand';
 import BattleMode from '../gamemodes/BattleMode';
+import PingRoom from './PingRoom';
 
-export default class BattleRoom extends Room<BattleSchema> {
+export default class BattleRoom extends PingRoom<BattleSchema> {
   dispacther = new Dispatcher(this);
 
   game: BattleMode;
 
-  onCreate() {
+  onCreate(options: any) {
+    super.onCreate(options);
+    this.starHearthbeat();
     this.setState(new BattleSchema());
     this.setPatchRate(1000 / 25);
-
     this.game = new BattleMode(this, this.dispacther);
   }
 

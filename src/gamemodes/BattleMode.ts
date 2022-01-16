@@ -1,7 +1,6 @@
 import { OnPlayerMove, OnPlayerSpawn } from './../commands/BattleCommand';
 import { Dispatcher } from '@colyseus/command';
 import { Room, Client } from 'colyseus';
-import PlayerSchema from '../schemas/PlayerSchema';
 
 export default class BattleMode {
   constructor(private room: Room, private dispacther: Dispatcher) {
