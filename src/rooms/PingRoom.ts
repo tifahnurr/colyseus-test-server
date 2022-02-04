@@ -1,6 +1,6 @@
 import { PingMetadata } from './../metadatas/PingMeta';
 import { Client, Delayed, Presence, Room } from 'colyseus';
-import { getMeta, setMeta } from '../utils/metaTool';
+import { getMeta, setMeta } from '../utils/MetaTool';
 
 export default class PingRoom<
   State = any,
