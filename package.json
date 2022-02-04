@@ -6,8 +6,9 @@
   "scripts": {
     "format": "prettier --write src/**/*.ts loadtest/**/*.ts clientside/**/*.ts",
     "dev": "nodemon --config \"./nodemon.json\"/",
-    "start": "ts-node-dev index.ts --transpileOnly",
-    "build": "tsc"
+    "start": "ts-node index.ts --transpileOnly",
+    "build": "tsc",
+    "postinstall": "tsc"
   },
   "repository": {
     "type": "git",
