@@ -47,6 +47,18 @@ export class OnPlayerLeave extends Command<BattleSchema, Session & WithRoom> {
   }
 }
 
+export class OnPlayerGameOver extends Command<BattleSchema, Session> {
+  execute({sessionId}: Session) {
+    const player = this.state.players.get(sessionId);
+    const id = player?.id || 0;
+    if (!player) {
+      return;
+    }
+    this.state.players.delete(sessionId);
+    this.room.broadcast('despawn', id);
+  }
+}
+
 export class OnPlayerSpawn extends Command<
   BattleSchema,
   Session & Transform & ID

@@ -1,4 +1,4 @@
-import { OnPlayerMove, OnPlayerSpawn, OnStarCollected, OnPlayerCollision, OnPlayerShoot, OnLaserHit } from './../commands/BattleCommand';
+import { OnPlayerMove, OnPlayerSpawn, OnStarCollected, OnPlayerCollision, OnPlayerShoot, OnLaserHit, OnPlayerGameOver } from './../commands/BattleCommand';
 import { Dispatcher } from '@colyseus/command';
 import { Room, Client } from 'colyseus';
 
@@ -6,6 +6,7 @@ export default class BattleMode {
   constructor(private room: Room, private dispacther: Dispatcher) {
     this.room.onMessage('spawn', this.OnSpawn.bind(this));
     this.room.onMessage('move', this.OnMove.bind(this));
+    this.room.onMessage('gameover', this.OnGameOver.bind(this));
     this.room.onMessage('starCollected', this.OnStarCollected.bind(this));
     this.room.onMessage('playerCollision', this.OnPlayerCollision.bind(this));
     this.room.onMessage('shoot', this.OnPlayerShoot.bind(this));
@@ -25,6 +26,11 @@ export default class BattleMode {
   OnMove(client: Client, msg: { x: number; y: number; angle: number }) {
     const { sessionId } = client;
     this.dispacther.dispatch(new OnPlayerMove(), { sessionId, ...msg });
+  }
+
+  OnGameOver(client: Client) {
+    const { sessionId } = client;
+    this.dispacther.dispatch(new OnPlayerGameOver(), { sessionId });
   }
 
   OnStarCollected(client: Client, msg: {id: number}) {
@@ -59,6 +65,9 @@ export default class BattleMode {
     })
   }
 
+  OnUpdateHp(client: Client, msg: {hp: number}) {
+
+  }
   // OnPlayerPing(client: Client, msg: {lastPing: number, currentRTT: number}) {
   //   console.log('msg received');
   //   client.send('pong', msg);

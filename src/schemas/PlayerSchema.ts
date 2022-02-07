@@ -19,5 +19,5 @@ export default class PlayerSchema extends Schema {
 
   @type('boolean')
   isCrashed: boolean;
-  
+
 }
