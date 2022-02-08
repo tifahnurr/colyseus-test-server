@@ -181,6 +181,10 @@ export class OnStarCollected extends Command<
       // this.state.stars.delete(String(id));
       star.isDespawned = true;
       player.score += 50;
+      player.hp += 5;
+      if (player.hp > 100) {
+        player.hp = 100;
+      }
       this.state.stars.delete(String(id));
     }
   }
