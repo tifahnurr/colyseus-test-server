@@ -23,8 +23,16 @@ interface ID {
   id: number;
 }
 
+interface Laser {
+  laserId: number;
+}
+
 interface WithRoom {
   room: Room;
+}
+
+interface HP {
+  hp: number;
 }
 
 export class OnPlayerJoin extends Command<BattleSchema, Session> {
@@ -72,6 +80,7 @@ export class OnPlayerSpawn extends Command<
     player.isSpawned = true;
     player.score = 0;
     player.position.assign({ x, y });
+    player.hp = 100;
   }
 }
 
@@ -128,6 +137,28 @@ export class ClearStar extends Command<
         star.isDespawned = true;
         this.state.stars.delete(String(star.id));
         starSpawnedTime.delete(star.id);
+      }
+    })
+  }
+}
+
+export class UpdatePlayerHp extends Command<
+  BattleSchema,
+  Map<number, number>
+> {
+  execute(lastPlayerUpdateHp: Map<number, number>) {
+    this.state.players.forEach((player) => {
+      if (lastPlayerUpdateHp.get(player.id)) {
+        if (Date.now() - lastPlayerUpdateHp.get(player.id) >= 3000) {
+          player.hp -= 3;
+          lastPlayerUpdateHp.set(player.id, Date.now());
+          if (player.hp <= 0) {
+            player.hp = 0;
+            this.room.broadcast('despawn', player.id);
+          }
+        }
+      } else {
+        lastPlayerUpdateHp.set(player.id, Date.now());
       }
     })
   }
@@ -192,23 +223,38 @@ export class OnPlayerShoot extends Command<
 
 export class OnLaserHit extends Command<
   BattleSchema,
-  Session & ID
+  Session & ID & Laser
 > {
-  execute({ sessionId, id }: Session & ID) {
-    const laser = this.room.state.lasers.get(String(id)) as LaserSchema;
-    let player: PlayerSchema;
+  execute({ sessionId, id, laserId }: Session & ID & Laser) {
+    const laser = this.room.state.lasers.get(String(laserId)) as LaserSchema;
+    let playerShoot: PlayerSchema = this.state.players.get(sessionId);
+    let playerHit: PlayerSchema;
     if (!laser) return;
     this.state.players.forEach((p) => {
-      if (p.id === laser.playerId) {
-        player = p;
+      if (p.id === id) {
+        playerHit = p;
       }
     })
-    if (!player) return;
+    if (!playerShoot || !playerHit) return;
     if (!laser.isDespawned) {
       // this.state.stars.delete(String(id));
       laser.isDespawned = true;
       this.state.lasers.delete(String(id));
-      player.score += 20;
+      playerHit.hp -= 10;
+      playerShoot.score += 20;
     }
+  }
+}
+
+export class OnUpdateHp extends Command<
+  BattleSchema,
+  Session & HP
+> {
+  execute({ sessionId, hp }: Session & HP) {
+    const player = this.state.players.get(sessionId) as PlayerSchema;
+    if (!player) {
+      return;
+    }
+    player.hp = hp;
   }
 }

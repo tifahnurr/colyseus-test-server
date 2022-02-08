@@ -17,7 +17,7 @@ export default class PlayerSchema extends Schema {
   @type(Vector2DSchema)
   position = new Vector2DSchema();
 
-  @type('boolean')
-  isCrashed: boolean;
+  @type('number')
+  hp: number;
 
 }
