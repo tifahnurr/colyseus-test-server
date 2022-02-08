@@ -149,11 +149,14 @@ export class UpdatePlayerHp extends Command<
   execute(lastPlayerUpdateHp: Map<number, number>) {
     this.state.players.forEach((player) => {
       if (lastPlayerUpdateHp.get(player.id)) {
+        let lastUpdate = lastPlayerUpdateHp.get(player.id)
         if (player.hp <= 0) {
           player.hp = 0;
+          lastPlayerUpdateHp.set(player.id, 0)
+          lastUpdate = 0;
           this.room.broadcast('despawn', player.id);
         }
-        if (Date.now() - lastPlayerUpdateHp.get(player.id) >= 3000) {
+        if (lastUpdate && Date.now() - lastUpdate >= 3000) {
           player.hp -= 3;
           lastPlayerUpdateHp.set(player.id, Date.now());
         }
