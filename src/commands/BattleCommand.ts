@@ -9,6 +9,13 @@ import PlayerSchema from '../schemas/PlayerSchema';
 import StarSchema from '../schemas/StarSchema';
 import { Vector2DSchema, Velocity } from '../schemas/Util';
 
+const HP_DEPLETE_TIME = 3000;
+const HP_DEPLETE_AMOUNT = 3;
+const STAR_INCREASE_SCORE = 50;
+const STAR_INCreaSE_HP = 5;
+
+
+
 interface Session {
   sessionId: string;
 }
@@ -156,8 +163,8 @@ export class UpdatePlayerHp extends Command<
           lastUpdate = 0;
           this.room.broadcast('despawn', player.id);
         }
-        if (lastUpdate && Date.now() - lastUpdate >= 3000) {
-          player.hp -= 3;
+        if (lastUpdate && Date.now() - lastUpdate >= HP_DEPLETE_TIME) {
+          player.hp -= HP_DEPLETE_AMOUNT;
           lastPlayerUpdateHp.set(player.id, Date.now());
         }
       } else {
